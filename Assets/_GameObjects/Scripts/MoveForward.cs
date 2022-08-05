@@ -18,7 +18,7 @@ public class MoveForward : MonoBehaviour
     {
         m_rigidbody = GetComponent<Rigidbody>();
     }
-    /*
+
     void OnMouseDown()
     {
         m_currentCamera = FindCamera();
@@ -28,20 +28,20 @@ public class MoveForward : MonoBehaviour
             m_offset = gameObject.transform.position - m_currentCamera.ScreenToWorldPoint(GetMousePosWithScreenZ(m_screenPoint.z));
         }
     }
-    */
+
     void OnMouseUp()
     {
-        m_rigidbody.velocity = m_currentVelocity;
-        m_currentCamera = null;
+        if (Input.touchCount == 0) //solo si se ha soltado del todo
+        {
+            m_rigidbody.velocity = m_currentVelocity;
+            m_currentCamera = null;
+        }
     }
 
     void FixedUpdate()
     {
         if (m_currentCamera != null)
         {
-            m_screenPoint = m_currentCamera.WorldToScreenPoint(gameObject.transform.position);
-            m_offset = gameObject.transform.position - m_currentCamera.ScreenToWorldPoint(GetMousePosWithScreenZ(m_screenPoint.z));
-
             Vector3 currentScreenPoint = GetMousePosWithScreenZ(m_screenPoint.z);
             m_rigidbody.velocity = Vector3.zero;
             m_rigidbody.MovePosition(m_currentCamera.ScreenToWorldPoint(currentScreenPoint) + m_offset);
