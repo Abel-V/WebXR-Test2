@@ -18,7 +18,7 @@ public class MoveForward : MonoBehaviour
     {
         m_rigidbody = GetComponent<Rigidbody>();
     }
-
+    /*
     void OnMouseDown()
     {
         m_currentCamera = FindCamera();
@@ -28,7 +28,7 @@ public class MoveForward : MonoBehaviour
             m_offset = gameObject.transform.position - m_currentCamera.ScreenToWorldPoint(GetMousePosWithScreenZ(m_screenPoint.z));
         }
     }
-
+    */
     void OnMouseUp()
     {
         m_rigidbody.velocity = m_currentVelocity;
@@ -39,13 +39,16 @@ public class MoveForward : MonoBehaviour
     {
         if (m_currentCamera != null)
         {
+            m_screenPoint = m_currentCamera.WorldToScreenPoint(gameObject.transform.position);
+            m_offset = gameObject.transform.position - m_currentCamera.ScreenToWorldPoint(GetMousePosWithScreenZ(m_screenPoint.z));
+
             Vector3 currentScreenPoint = GetMousePosWithScreenZ(m_screenPoint.z);
             m_rigidbody.velocity = Vector3.zero;
             m_rigidbody.MovePosition(m_currentCamera.ScreenToWorldPoint(currentScreenPoint) + m_offset);
             m_currentVelocity = (transform.position - m_previousPos) / Time.deltaTime;
             if (Input.touchCount == 2)
             {
-                textMesh.text = "Two fingers detected";
+                //textMesh.text = "Two fingers detected";
                 Touch touchZero = Input.GetTouch(0);
                 Touch touchOne = Input.GetTouch(1);
 
@@ -56,9 +59,9 @@ public class MoveForward : MonoBehaviour
                 float currentMagnitude = (touchZero.position - touchOne.position).magnitude;
 
                 float difference = currentMagnitude - prevMagnitude;
-                textMesh.text = "Two fingers detected. Difference: " + difference.ToString();
+                //textMesh.text = "Two fingers detected. Difference: " + difference.ToString();
 
-                transform.position += transform.forward * difference * 0.005f;
+                transform.position += m_currentCamera.transform.forward * difference * 0.005f;
             }
             m_previousPos = transform.position;
         }
