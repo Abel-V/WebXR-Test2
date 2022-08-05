@@ -31,8 +31,10 @@ public class MoveForward : MonoBehaviour
 
     void OnMouseUp()
     {
+        textMesh.text = "Up.";
         if (Input.touchCount == 0) //solo si se ha soltado del todo
         {
+            textMesh.text = "Up. Fingers = " + Input.touchCount.ToString();
             m_rigidbody.velocity = m_currentVelocity;
             m_currentCamera = null;
         }
