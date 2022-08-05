@@ -24,7 +24,7 @@ public class MoveForward : MonoBehaviour
             float difference = currentMagnitude - prevMagnitude;
             textMesh.text = "Two fingers detected. Difference: " + difference.ToString();
 
-            transform.position += transform.forward * difference;
+            transform.position += transform.forward * difference * 0.01f;
         }
     
     }
